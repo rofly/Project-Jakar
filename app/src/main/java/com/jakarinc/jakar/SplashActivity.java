@@ -22,7 +22,7 @@ public class SplashActivity extends AppCompatActivity {
 
     public void onStartClick(View v){
         Context context = getApplicationContext();
-        CharSequence text = "JOOJ";
+        CharSequence text = "Commit 2";
         int duration = Toast.LENGTH_SHORT;
 
         Toast toast = Toast.makeText(context, text, duration);
