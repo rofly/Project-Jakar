@@ -10,24 +10,45 @@
     tools:context="com.jakarinc.jakar.SplashActivity">
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:src="@drawable/jak"
-        android:layout_alignWithParentIfMissing="false"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/jak" />
 
     <Button
+        android:id="@+id/start"
+        style="@android:style/TextAppearance.Material.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Começar"
-        android:id="@+id/start"
-        android:layout_alignWithParentIfMissing="false"
-        style="@android:style/TextAppearance.Material.Button"
-        android:onClick="onStartClick"
         android:layout_alignParentBottom="true"
+        android:layout_alignWithParentIfMissing="false"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp" />
+        android:layout_marginBottom="30dp"
+        android:onClick="validaTelefone"
+        android:text="Começar" />
+
+    <EditText
+        android:id="@+id/telefone_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="false"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="Telefone"
+        android:inputType="phone"
+        android:paddingTop="20px" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/telefone_input"
+        android:gravity="center"
+        android:text="@string/introText"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>
