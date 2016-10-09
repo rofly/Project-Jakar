@@ -3,4 +3,13 @@
     <string name="introText"> Para começar, nós vamos precisar do seu telefone </string>
     <string name="waitintMessage">Nós vamos te enviar uma menssagem. Entre o código recebido na menssagem no campo abaixo:</string>
     <string name="falhaAuth"> Você não inseriu seu código no tempo limite de 2 minutos. Para que você possa fazer uso desse aplicativo é necessário que nós verifiquemos seu número. Você gostaria de tentar de novo ? </string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

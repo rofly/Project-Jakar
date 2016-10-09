@@ -11,6 +11,7 @@ import android.widget.EditText;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.jakarinc.jakar.LocalIO.Impl.Auth;
 
 public class SplashActivity extends AppCompatActivity {
     public final static String TELEFONE_ENTRADO = "com.jakarinc.jakar.TELEFONE_ENTRADO";
@@ -27,6 +28,7 @@ public class SplashActivity extends AppCompatActivity {
         /* código útil pro futuro */
         /*getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.abs_layout);*/
+        masterDispatcher();
         getSupportActionBar().hide();
         setContentView(R.layout.splash);
         telefone_input = (EditText) findViewById(R.id.telefone_input);
@@ -45,6 +47,7 @@ public class SplashActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();*/
         String telefoneEntrado = telefone_input.getText().toString();
+
         if (PhoneNumberUtils.isGlobalPhoneNumber(telefoneEntrado) == false) {
             telefone_input.setError("Este não é um telefone válido");
         } else {
@@ -98,5 +101,15 @@ public class SplashActivity extends AppCompatActivity {
         );
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
+    }
+
+    public void masterDispatcher() {
+        Auth autenticador = new Auth(getApplicationContext());
+        String id = autenticador.getUserId();
+        if (id != null) {
+            System.out.println(autenticador.getUserId());
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 }

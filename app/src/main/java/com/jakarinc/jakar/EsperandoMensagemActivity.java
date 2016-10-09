@@ -8,9 +8,12 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.jakarinc.jakar.LocalIO.Impl.Auth;
 
 public class EsperandoMensagemActivity extends AppCompatActivity {
     TextView contador;
@@ -23,9 +26,11 @@ public class EsperandoMensagemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_esperando_mensagem);
-        getSupportActionBar().setTitle("Quase lá ... ");
+        //getSupportActionBar().setTitle("Quase lá ... ");
+        getSupportActionBar().hide();
         Intent intent = getIntent();
-        String numeroTelefone = intent.getStringExtra(SplashActivity.TELEFONE_ENTRADO);
+        numeroTelefone = intent.getStringExtra(SplashActivity.TELEFONE_ENTRADO);
+
         sendMessage(numeroTelefone);
 
 
@@ -58,6 +63,7 @@ public class EsperandoMensagemActivity extends AppCompatActivity {
 
 
     private void sendMessage(String telefone) {
+        //TODO fazer o sistema de verificacao funcionar
         System.out.println("N SUPORTADO ");
     }
 
@@ -101,9 +107,13 @@ public class EsperandoMensagemActivity extends AppCompatActivity {
     /*
     *no futuro checará se o código informado bate com o do servidor
     * mas hoje simplesmente deixa o usuário seguir para a próxima tela
-    */
-    public void validaCodigo() {
+    */ // TODO fazer o sistema de verificacao funcionar
+    public void validaCodigo(View v) {
         timer.cancel();
+        Auth autenticador = new Auth(getApplicationContext());
+        autenticador.logIn(numeroTelefone);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     private String secondsToString(long pTime) {
