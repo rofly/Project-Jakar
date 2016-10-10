@@ -1,5 +1,6 @@
-package com.jakarinc.jakar;
+package com.jakarinc.jakar.Controller.Main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -13,16 +14,31 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
+import com.jakarinc.jakar.Controller.ConfirmaID.SplashActivity;
+import com.jakarinc.jakar.Controller.ListaHorario.HorarioFragment;
+import com.jakarinc.jakar.Controller.ListaHorario.ListFragmentQueDeveSerInstanciado;
+import com.jakarinc.jakar.Controller.Profile.Estabelecimento_profile;
+import com.jakarinc.jakar.Domain.Horario;
+import com.jakarinc.jakar.LocalIO.Impl.Auth;
+import com.jakarinc.jakar.R;
+
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        HorarioFragment.OnListFragmentInteractionListener
+
+
+{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        masterDispatcher();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setLogo(R.drawable.jaklogosmall);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -85,8 +101,17 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             Estabelecimento_profile fragmentoEstabelecimento = Estabelecimento_profile.newInstance(null);
             FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(R.id.jumbotron_display, fragmentoEstabelecimento, fragmentoEstabelecimento.getTag()).commit();
+            manager.beginTransaction().
+                    replace(R.id.jumbotron_display, fragmentoEstabelecimento, fragmentoEstabelecimento.getTag())
+                    .addToBackStack(fragmentoEstabelecimento.getTag())
+                    .commit();
         } else if (id == R.id.nav_gallery) {
+            ListFragmentQueDeveSerInstanciado listaFragment = ListFragmentQueDeveSerInstanciado.newInstance(null, null);
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction()
+                    .replace(R.id.jumbotron_display, listaFragment, listaFragment.getTag())
+                    .addToBackStack(listaFragment.getTag())
+                    .commit();
 
         } else if (id == R.id.nav_slideshow) {
 
@@ -102,4 +127,28 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+    public void masterDispatcher() {
+        Auth autenticador = new Auth(getApplicationContext());
+        String id = autenticador.getUserId();
+        if (id == null) {
+            System.out.println(autenticador.getUserId());
+            Intent intent = new Intent(this, SplashActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onListFragmentInteraction(Horario h) {
+        Toast.makeText(getApplicationContext(), "Horas " + String.valueOf(h.getHorasTimeStamp()), Toast.LENGTH_SHORT).show();
+    }
+
+    /*@Override
+    public void onListFragmentInteraction(Horario h) {
+
+    }*/
+
+
+
 }

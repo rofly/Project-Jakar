@@ -1,4 +1,4 @@
-package com.jakarinc.jakar;
+package com.jakarinc.jakar.Controller.ConfirmaID;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -13,7 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.jakarinc.jakar.Controller.Main.MainActivity;
 import com.jakarinc.jakar.LocalIO.Impl.Auth;
+import com.jakarinc.jakar.R;
 
 public class EsperandoMensagemActivity extends AppCompatActivity {
     TextView contador;
@@ -61,6 +63,9 @@ public class EsperandoMensagemActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+    }
 
     private void sendMessage(String telefone) {
         //TODO fazer o sistema de verificacao funcionar

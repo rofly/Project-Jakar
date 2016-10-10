@@ -1,4 +1,4 @@
-package com.jakarinc.jakar;
+package com.jakarinc.jakar.Controller.Profile;
 
 import android.content.Context;
 import android.net.Uri;
@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.jakarinc.jakar.R;
 
 
 /**
@@ -22,11 +24,11 @@ public class Estabelecimento_profile extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ESTABELECIMENTO_ID = "estabelecimento_id";
-    private static final String ARG_PARAM2 = "param2";
+
 
     // TODO: Rename and change types of parameters
     private String Estabelecimento_ID;
-
+    private View v;
 
     private OnFragmentInteractionListener mListener;
 
@@ -54,14 +56,16 @@ public class Estabelecimento_profile extends Fragment {
             Estabelecimento_ID = getArguments().getString(ESTABELECIMENTO_ID);
 
         }
+        setRetainInstance(false);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_estabelecimento_profile, container, false);
+        v = inflater.inflate(R.layout.fragment_estabelecimento_profile, container, false);
         TextView id = (TextView) v.findViewById(R.id.estabelecimento_nome);
+
         if (Estabelecimento_ID != null)
             id.setText(Estabelecimento_ID);
 
@@ -91,6 +95,13 @@ public class Estabelecimento_profile extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        System.gc();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        v = null;
     }
 
     /**
@@ -98,7 +109,7 @@ public class Estabelecimento_profile extends Fragment {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
+     * <p/>
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
