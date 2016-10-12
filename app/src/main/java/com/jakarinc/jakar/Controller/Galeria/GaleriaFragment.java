@@ -20,14 +20,14 @@ import java.util.ArrayList;
 public class GaleriaFragment extends Fragment implements AdaptadorGaleria.ClickListener {
 
     private String TAG = getTag();
-    //private static final String endpoint = "http://api.androidhive.info/json/glide.json";
     private ArrayList<Imagem> images;
     private AdaptadorGaleria mAdapter;
     private RecyclerView recyclerView;
 
 
-    public static GaleriaFragment newInstance() {
+    public static GaleriaFragment newInstance(ArrayList<Imagem> images) {
         GaleriaFragment fragment = new GaleriaFragment();
+        fragment.images = images;
         return fragment;
     }
 
@@ -37,20 +37,18 @@ public class GaleriaFragment extends Fragment implements AdaptadorGaleria.ClickL
 
     }
 
+    public void setImages(ArrayList<Imagem> images) {
+        this.images = images;
+        mAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View retorno = inflater.inflate(R.layout.galeria, container, false);
         recyclerView = (RecyclerView) retorno.findViewById(R.id.recycler_view_galeria);
-        images = new ArrayList<>();
         mAdapter = new AdaptadorGaleria(getContext(), images);
-
-
-        images.add(new Imagem("c01", "Carlosa", "http://1.bp.blogspot.com/-BN4yCmhg61g/UMsCARcOfUI/AAAAAAAAEkM/oXZRoyDBu2Q/s1600/14.jpg"));
-        images.add(new Imagem("c01", "Carlosa", "https://pbs.twimg.com/media/ChySsFaUUAA6jik.jpg"));
-        images.add(new Imagem("c01", "Carlosa",
-                "https://scontent-grt.xx.fbcdn.net/v/t34.0-12/14642586_1062856430500441_234982620_n.jpg?oh=5137e3768d5965ec73f10fa386d0129b&oe=57FFEAD2"));
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(mLayoutManager);

@@ -44,6 +44,7 @@ public class AdaptadorGaleria extends RecyclerView.Adapter<AdaptadorGaleria.MyVi
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.thumbnail);
+
     }
 
     @Override

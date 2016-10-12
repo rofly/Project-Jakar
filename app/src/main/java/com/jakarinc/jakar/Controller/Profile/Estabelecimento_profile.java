@@ -4,17 +4,17 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jakarinc.jakar.Controller.Galeria.GaleriaFragment;
+import com.jakarinc.jakar.Domain.Imagem;
 import com.jakarinc.jakar.R;
+import com.jakarinc.jakar.RemoteIO.FetchSalaoData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -26,12 +26,9 @@ import com.jakarinc.jakar.R;
  * create an instance of this fragment.
  */
 public class Estabelecimento_profile extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ESTABELECIMENTO_ID = "estabelecimento_id";
-
-
-    // TODO: Rename and change types of parameters
+    GaleriaFragment galeriaFragment;
     private String Estabelecimento_ID;
     private View v;
 
@@ -48,6 +45,7 @@ public class Estabelecimento_profile extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static Estabelecimento_profile newInstance(String estabelecimentoId) {
         Estabelecimento_profile fragment = new Estabelecimento_profile();
+        fragment.Estabelecimento_ID = estabelecimentoId;
         Bundle args = new Bundle();
         args.putString(ESTABELECIMENTO_ID, estabelecimentoId);
         fragment.setArguments(args);
@@ -64,18 +62,13 @@ public class Estabelecimento_profile extends Fragment {
         setRetainInstance(false);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        List<Imagem> images = new ArrayList<>();
         v = inflater.inflate(R.layout.fragment_estabelecimento_profile, container, false);
-        fillInformation(v, null);
-        FragmentManager manager = getChildFragmentManager();
-        GaleriaFragment galeriaFragment = GaleriaFragment.newInstance();
-        manager.beginTransaction()
-                .replace(R.id.galeria_salao_holder, galeriaFragment, galeriaFragment.getTag())
-                .addToBackStack(galeriaFragment.getTag())
-                .commit();
+        FetchSalaoData.fillInformationInto(this, Estabelecimento_ID);
         return v;
     }
 
@@ -112,24 +105,6 @@ public class Estabelecimento_profile extends Fragment {
         v = null;
     }
 
-    private void fillInformation(View v, String salaoId) {
-
-        //TODO implementar a tela q mostra o salao
-
-        TextView id = (TextView) v.findViewById(R.id.estabelecimento_nome);
-
-        if (Estabelecimento_ID != null)
-            id.setText(Estabelecimento_ID);
-
-        ImageView cover = (ImageView) v.findViewById(R.id.cover_img);
-
-
-        Glide.with(getContext()).load("http://digaobeta.herokuapp.com/JakarHost/img/carla.jpg")
-                .thumbnail(0.5f)
-                .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(cover);
-    }
 
 
     /**

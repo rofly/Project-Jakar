@@ -7,7 +7,7 @@ public class Imagem implements Serializable {
     private String salaoId;
     private String salaoNome;
     private String url;
-
+    private String descricao;
 
     public Imagem() {
         salaoId = null;
@@ -19,6 +19,22 @@ public class Imagem implements Serializable {
         this.salaoId = salaoId;
         this.salaoNome = salaoNome;
         this.url = url;
+        this.descricao = "";
+    }
+
+    public Imagem(String salaoId, String salaoNome, String url, String descricao) {
+        this.salaoId = salaoId;
+        this.salaoNome = salaoNome;
+        this.url = url;
+        this.descricao = descricao;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public String getSalaoId() {

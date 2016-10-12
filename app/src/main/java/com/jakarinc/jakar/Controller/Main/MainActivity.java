@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         masterDispatcher();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -99,13 +100,16 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            Estabelecimento_profile fragmentoEstabelecimento = Estabelecimento_profile.newInstance(null);
+            System.gc();
+            Estabelecimento_profile fragmentoEstabelecimento = Estabelecimento_profile.newInstance("123456");
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().
                     replace(R.id.jumbotron_display, fragmentoEstabelecimento, fragmentoEstabelecimento.getTag())
                     .addToBackStack(fragmentoEstabelecimento.getTag())
                     .commit();
+
         } else if (id == R.id.nav_gallery) {
+            System.gc();
             ListFragmentQueDeveSerInstanciado listaFragment = ListFragmentQueDeveSerInstanciado.newInstance(null, null);
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction()
@@ -113,7 +117,9 @@ public class MainActivity extends AppCompatActivity
                     .addToBackStack(listaFragment.getTag())
                     .commit();
 
+
         } else if (id == R.id.nav_slideshow) {
+            Snackbar.make(findViewById(R.id.jumbotron_display), "JOOJ", Snackbar.LENGTH_LONG).show();
 
         } else if (id == R.id.nav_manage) {
 

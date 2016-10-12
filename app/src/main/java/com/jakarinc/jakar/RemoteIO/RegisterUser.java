@@ -67,7 +67,6 @@ public class RegisterUser {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            System.out.println("STATUSSS" + response.get("status"));
                             if (response.get("status").equals("ok")) {
                                 c.getTimer().cancel();
                                 Auth autenticadorLocal = new Auth(c);
