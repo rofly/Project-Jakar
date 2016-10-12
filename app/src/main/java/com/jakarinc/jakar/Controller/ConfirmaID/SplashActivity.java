@@ -12,6 +12,7 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.jakarinc.jakar.R;
+import com.jakarinc.jakar.RemoteIO.RegisterUser;
 
 public class SplashActivity extends AppCompatActivity {
     public final static String TELEFONE_ENTRADO = "com.jakarinc.jakar.TELEFONE_ENTRADO";
@@ -61,6 +62,7 @@ public class SplashActivity extends AppCompatActivity {
 
 
     private void sendMessage(View view, String telefone) {
+        RegisterUser.registrar(telefone, this);
         Intent intent = new Intent(this, EsperandoMensagemActivity.class);
         intent.putExtra(TELEFONE_ENTRADO, telefone);
         startActivity(intent);

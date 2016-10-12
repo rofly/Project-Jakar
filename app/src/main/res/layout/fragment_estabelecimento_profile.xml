@@ -12,22 +12,23 @@
         android:layout_height="wrap_content">
 
         <RelativeLayout
+            android:id="@+id/main_info"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/cover_img"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:src="@drawable/carla" />
+                android:src="@drawable/cover_placeholder" />
 
             <TextView
                 android:id="@+id/estabelecimento_nome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/imageView2"
+                android:layout_below="@+id/cover_img"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:text="Salão da Carlinha"
@@ -92,7 +93,7 @@
             </TableLayout>
 
             <LinearLayout
-                android:id="@+id/linearLayout"
+                android:id="@+id/avalicao_contatiner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -121,17 +122,18 @@
                     android:textColor="@color/colorAccent" />
             </LinearLayout>
 
+
+            <RelativeLayout
+                android:id="@+id/galeria_salao_holder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/avalicao_contatiner"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="7dp">
+
+            </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
 
-    <GridView
-        android:id="@+id/gridView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/scrollView"
-        android:choiceMode="none"
-        android:numColumns="auto_fit"
-        android:paddingTop="5dp" />
 
 </RelativeLayout>

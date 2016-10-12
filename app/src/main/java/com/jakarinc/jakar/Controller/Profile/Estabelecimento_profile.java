@@ -4,11 +4,16 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.jakarinc.jakar.Controller.Galeria.GaleriaFragment;
 import com.jakarinc.jakar.R;
 
 
@@ -64,15 +69,17 @@ public class Estabelecimento_profile extends Fragment {
                              Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.fragment_estabelecimento_profile, container, false);
-        TextView id = (TextView) v.findViewById(R.id.estabelecimento_nome);
-
-        if (Estabelecimento_ID != null)
-            id.setText(Estabelecimento_ID);
-
+        fillInformation(v, null);
+        FragmentManager manager = getChildFragmentManager();
+        GaleriaFragment galeriaFragment = GaleriaFragment.newInstance();
+        manager.beginTransaction()
+                .replace(R.id.galeria_salao_holder, galeriaFragment, galeriaFragment.getTag())
+                .addToBackStack(galeriaFragment.getTag())
+                .commit();
         return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -82,6 +89,7 @@ public class Estabelecimento_profile extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
         /*if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -103,6 +111,26 @@ public class Estabelecimento_profile extends Fragment {
         super.onDestroyView();
         v = null;
     }
+
+    private void fillInformation(View v, String salaoId) {
+
+        //TODO implementar a tela q mostra o salao
+
+        TextView id = (TextView) v.findViewById(R.id.estabelecimento_nome);
+
+        if (Estabelecimento_ID != null)
+            id.setText(Estabelecimento_ID);
+
+        ImageView cover = (ImageView) v.findViewById(R.id.cover_img);
+
+
+        Glide.with(getContext()).load("http://digaobeta.herokuapp.com/JakarHost/img/carla.jpg")
+                .thumbnail(0.5f)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(cover);
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this

@@ -13,16 +13,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.jakarinc.jakar.Controller.Main.MainActivity;
-import com.jakarinc.jakar.LocalIO.Impl.Auth;
 import com.jakarinc.jakar.R;
+import com.jakarinc.jakar.RemoteIO.RegisterUser;
 
 public class EsperandoMensagemActivity extends AppCompatActivity {
     TextView contador;
     EditText codigo_input;
-    CountDownTimer timer;
     Button confirma_codigo_button;
     String numeroTelefone;
+    private CountDownTimer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +67,11 @@ public class EsperandoMensagemActivity extends AppCompatActivity {
     }
 
     private void sendMessage(String telefone) {
-        //TODO fazer o sistema de verificacao funcionar
-        System.out.println("N SUPORTADO ");
+        RegisterUser.registrar(telefone, this);
     }
 
     private void startCountdown() {
-        timer = new CountDownTimer(10000, 1000) {
+        setTimer(new CountDownTimer(120000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 contador.setText(secondsToString(millisUntilFinished / 1000));
@@ -82,7 +80,7 @@ public class EsperandoMensagemActivity extends AppCompatActivity {
             public void onFinish() {
                 timeoutPopUp();
             }
-        }.start();
+        }.start());
     }
 
     private void timeoutPopUp() {
@@ -114,14 +112,19 @@ public class EsperandoMensagemActivity extends AppCompatActivity {
     * mas hoje simplesmente deixa o usuário seguir para a próxima tela
     */ // TODO fazer o sistema de verificacao funcionar
     public void validaCodigo(View v) {
-        timer.cancel();
-        Auth autenticador = new Auth(getApplicationContext());
-        autenticador.logIn(numeroTelefone);
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        String codigo = codigo_input.getText().toString();
+        RegisterUser.confirmar(numeroTelefone, codigo, this);
     }
 
     private String secondsToString(long pTime) {
         return String.format("%02d:%02d", pTime / 60, pTime % 60);
+    }
+
+    public CountDownTimer getTimer() {
+        return timer;
+    }
+
+    public void setTimer(CountDownTimer timer) {
+        this.timer = timer;
     }
 }

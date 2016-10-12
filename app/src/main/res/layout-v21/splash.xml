@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -18,18 +19,6 @@
         android:layout_centerHorizontal="true"
         android:src="@drawable/jak" />
 
-    <Button
-        android:id="@+id/start"
-        style="@android:style/TextAppearance.Material.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignWithParentIfMissing="false"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
-        android:onClick="validaTelefone"
-        android:text="Começar" />
-
     <EditText
         android:id="@+id/telefone_input"
         android:layout_width="wrap_content"
@@ -44,11 +33,24 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/telefone_input"
         android:gravity="center"
         android:text="@string/introText"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/start"
+        style="@android:style/TextAppearance.Material.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="26dp"
+        android:elevation="0dp"
+        android:onClick="validaTelefone"
+        android:text="Começar" />
 
 </RelativeLayout>
