@@ -12,5 +12,7 @@
 
 
     <string name="listaHorarioTitle">Seus agendamentos: </string>
-    <string name="title_activity_maps">Map</string>
+    <string name="toastPermissionDenied">Nós precisamos da sua localização para oferecer nossos serviços.</string>
+    <string name="googleApiConnectionSuspended">A conexão com o Google Play Services foi suspensa</string>
+    <string name="googleApiConnectionFailed">Falha ao estabelecer conexão com o Google Play Services</string>
 </resources>

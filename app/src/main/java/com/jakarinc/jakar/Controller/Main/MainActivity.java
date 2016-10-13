@@ -1,10 +1,12 @@
 package com.jakarinc.jakar.Controller.Main;
 
 import android.Manifest;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -21,9 +23,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -40,21 +44,32 @@ import com.jakarinc.jakar.R;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        HorarioFragment.OnListFragmentInteractionListener, OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback
+        HorarioFragment.OnListFragmentInteractionListener, OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener
 
 
 {
 
-    private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+
     private GoogleMap mMap;
+    private Location mLastLocation;
+    private GoogleApiClient mGoogleApiClient;
+    private LatLng ultimaPosicao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         masterDispatcher();
+
+        /*Inicializa a API Google Play Services, necessária para ferramenta de localização*/
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -91,6 +106,7 @@ public class MainActivity extends AppCompatActivity
                 replace(R.id.jumbotron_display, mapFragment, mapFragment.getTag())
                 .addToBackStack(mapFragment.getTag())
                 .commit();
+
 
 
     }
@@ -162,6 +178,7 @@ public class MainActivity extends AppCompatActivity
                     .addToBackStack(mapFragment.getTag())
                     .commit();
 
+
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
@@ -194,23 +211,25 @@ public class MainActivity extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        //Se a permissão para usar localização precisa não foi concedida ainda, pede permissão para o usuário
+         //Se a permissão para usar localização não foi concedida ainda, pede permissão para o usuário
         if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
+                Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    R.dimen.MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
 
         } else {
-            /*Isso ativa a funcionalidade MyLocation no mapa.*/
+            //Isso ativa a funcionalidade MyLocation no mapa.
             mMap.setMyLocationEnabled(true);
+            //Move a câmera do mapa para a localização obtida
+            if (ultimaPosicao != null) {
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(ultimaPosicao));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+            }
         }
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
 
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
 
     }
 
@@ -220,22 +239,91 @@ public class MainActivity extends AppCompatActivity
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
         switch(requestCode) {
-            /*Caso o pedido tenha sido para habilitar o acesso a localização de alta precisão*/
-            case MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+            /*Caso o pedido tenha sido para habilitar o acesso a localização de baixa precisão*/
+            case R.dimen.MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION: {
                 /*Se a request for cancelada, o array retornado é vazio. Se receber permissão, [0] = constante de permissão concedida.
                 * Além disso, é OBRIGATÓRIO usar `checkSelfPermission` para checar a concessão.*/
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
-                        && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     /*Isso ativa a funcionalidade MyLocation no mapa.*/
                     mMap.setMyLocationEnabled(true);
+
+                    if (mLastLocation == null) {
+                        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                        if (mLastLocation != null) {
+                            double lat = mLastLocation.getLatitude();
+                            double lng = mLastLocation.getLongitude();
+                            ultimaPosicao = new LatLng(lat, lng);
+
+                            //Move a câmera do mapa para a localização obtida
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(ultimaPosicao));
+                            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+                        }
+                    }
+
                 } else {
-                    mMap.setMyLocationEnabled(false);
+                    Toast toast = Toast.makeText(this, R.string.toastPermissionDenied, Toast.LENGTH_LONG);
                 }
             }
         }
 
 
     }
+
+    @Override
+    protected void onStart() {
+        mGoogleApiClient.connect();
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+        /*Armazena a última localização do usuário utilizando a GoogleApiClient
+          É necessário pedir permissão antes.
+         */
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, R.dimen.MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
+
+
+        } else {
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            if (mLastLocation != null) {
+                double lat = mLastLocation.getLatitude();
+                double lng = mLastLocation.getLongitude();
+                ultimaPosicao = new LatLng(lat, lng);
+                //Move a câmera do mapa para a localização obtida
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(ultimaPosicao));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+            }
+        }
+
+    }
+
+
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        Toast toast = Toast.makeText(this, R.string.googleApiConnectionSuspended, Toast.LENGTH_LONG);
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast toast = Toast.makeText(this, R.string.googleApiConnectionFailed, Toast.LENGTH_LONG);
+    }
+
+
+
+
 
     /*@Override
     public void onListFragmentInteraction(Horario h) {

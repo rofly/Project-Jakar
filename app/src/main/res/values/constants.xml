@@ -1,0 +1,7 @@
+
+<resources>
+
+    <item name="MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION" format="integer" type="dimen">1</item>
+    <item name="DEFAULT_ZOOM" format="float" type="dimen">0.0001</item>
+
+</resources>
