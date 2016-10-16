@@ -1,9 +1,13 @@
 package com.jakarinc.jakar.RemoteIO;
 
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.support.v4.app.FragmentManager;
+import android.view.KeyEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -48,6 +52,8 @@ public class FetchSalaoData {
      * @param salaoFragment o fragmento onde serão exibidos os dados do salão
      */
     public static void fillInformationInto(final Estabelecimento_profile salaoFragment, final String salaoId) {
+        final Dialog dialog = new Dialog(salaoFragment.getContext(), android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
+        dialog.setContentView(R.layout.dialog_custom_loading);
         Map<String, String> requisicaoStrings = new HashMap<>();
         requisicaoStrings.put("request_type", "fetchAll");
         requisicaoStrings.put("salaoId", salaoId);
@@ -83,7 +89,7 @@ public class FetchSalaoData {
                                         .replace(R.id.galeria_salao_holder, galeriaFragment, galeriaFragment.getTag())
                                         .addToBackStack(galeriaFragment.getTag())
                                         .commit();
-
+                                dialog.dismiss();
 
                             }
                             // TODO popular com dados do Google Maps
@@ -96,12 +102,25 @@ public class FetchSalaoData {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.out.println(error.getMessage());
+                        Toast.makeText(salaoFragment.getContext(), "deu n bambam", Toast.LENGTH_LONG);
+                        dialog.dismiss();
                     }
                 }
         );
         RequestQueue fila = Volley.newRequestQueue(salaoFragment.getContext());
         fila.add(request);
+        ImageView loadingImageDisplay = (ImageView) dialog.findViewById(R.id.loading_image_display);
+        Glide.with(salaoFragment.getContext()).load(R.drawable.loading)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .sizeMultiplier(0.8f)
+                .into(loadingImageDisplay);
+        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                return keyCode == KeyEvent.KEYCODE_BACK;
+            }
+        });
+        dialog.show();
     }
 
 

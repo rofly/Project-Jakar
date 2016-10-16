@@ -31,7 +31,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.jakarinc.jakar.Controller.ConfirmaID.SplashActivity;
 import com.jakarinc.jakar.Controller.ListaHorario.HorarioFragment;
 import com.jakarinc.jakar.Controller.ListaHorario.ListFragmentQueDeveSerInstanciado;
@@ -50,6 +49,7 @@ public class MainActivity extends AppCompatActivity
 {
 
 
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
     private GoogleMap mMap;
     private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
@@ -208,6 +208,7 @@ public class MainActivity extends AppCompatActivity
         Toast.makeText(getApplicationContext(), "Horas " + String.valueOf(h.getHorasTimeStamp()), Toast.LENGTH_SHORT).show();
     }
 
+
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
@@ -217,7 +218,7 @@ public class MainActivity extends AppCompatActivity
                 != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                    R.dimen.MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
+                    MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
 
         } else {
             //Isso ativa a funcionalidade MyLocation no mapa.
@@ -240,7 +241,7 @@ public class MainActivity extends AppCompatActivity
 
         switch(requestCode) {
             /*Caso o pedido tenha sido para habilitar o acesso a localização de baixa precisão*/
-            case R.dimen.MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION: {
+            case MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION: {
                 /*Se a request for cancelada, o array retornado é vazio. Se receber permissão, [0] = constante de permissão concedida.
                 * Além disso, é OBRIGATÓRIO usar `checkSelfPermission` para checar a concessão.*/
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
@@ -292,7 +293,7 @@ public class MainActivity extends AppCompatActivity
                 Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, R.dimen.MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
 
 
         } else {
@@ -304,6 +305,7 @@ public class MainActivity extends AppCompatActivity
                 //Move a câmera do mapa para a localização obtida
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(ultimaPosicao));
                 mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+
             }
         }
 
