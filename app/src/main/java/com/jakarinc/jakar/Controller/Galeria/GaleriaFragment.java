@@ -27,6 +27,7 @@ public class GaleriaFragment extends Fragment implements AdaptadorGaleria.ClickL
 
     public static GaleriaFragment newInstance(ArrayList<Imagem> images) {
         GaleriaFragment fragment = new GaleriaFragment();
+        fragment.setRetainInstance(false);
         fragment.images = images;
         return fragment;
     }
