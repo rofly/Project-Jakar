@@ -2,9 +2,7 @@ package com.jakarinc.jakar.RemoteIO;
 
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.support.v4.app.FragmentManager;
-import android.view.KeyEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -81,8 +79,8 @@ public class FetchSalaoData {
                                         .error(R.drawable.img_error)
                                         .crossFade()
                                         .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                        .fitCenter()
                                         .into(cover);
+
                                 FragmentManager manager = salaoFragment.getChildFragmentManager();
                                 GaleriaFragment galeriaFragment = GaleriaFragment.newInstance(galeriaImagens);
                                 manager.beginTransaction()
@@ -114,13 +112,13 @@ public class FetchSalaoData {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .sizeMultiplier(0.8f)
                 .into(loadingImageDisplay);
-        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+        /*dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
             public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
                 return keyCode == KeyEvent.KEYCODE_BACK;
             }
-        });
-        dialog.show();
+        });*/
+        //dialog.show();
     }
 
 

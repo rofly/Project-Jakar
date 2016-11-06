@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import java.util.List;
  */
 public class Estabelecimento_profile extends Fragment {
 
+    public static final String TAG = "fragment_estabelecimento_profile";
     private static final String ESTABELECIMENTO_ID = "estabelecimento_id";
     GaleriaFragment galeriaFragment;
     private String Estabelecimento_ID;
@@ -35,7 +37,7 @@ public class Estabelecimento_profile extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     public Estabelecimento_profile() {
-        // Required empty public constructor
+        setRetainInstance(false);
     }
 
     /**
@@ -59,8 +61,9 @@ public class Estabelecimento_profile extends Fragment {
             Estabelecimento_ID = getArguments().getString(ESTABELECIMENTO_ID);
 
         }
-        setRetainInstance(false);
+
     }
+
 
 
     @Override
@@ -68,7 +71,6 @@ public class Estabelecimento_profile extends Fragment {
                              Bundle savedInstanceState) {
         List<Imagem> images = new ArrayList<>();
         v = inflater.inflate(R.layout.fragment_estabelecimento_profile, container, false);
-        FetchSalaoData.fillInformationInto(this, Estabelecimento_ID);
         return v;
     }
 
@@ -82,30 +84,20 @@ public class Estabelecimento_profile extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
-        /*if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }*/
-
+        FetchSalaoData.fillInformationInto(this, Estabelecimento_ID);
     }
+
+
+
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-        System.gc();
+    public void onStop() {
+        super.onStop();
+        FragmentManager manager = getFragmentManager();
+        manager.beginTransaction().
+                remove(this).
+                commitAllowingStateLoss();
     }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        v = null;
-    }
-
-
 
     /**
      * This interface must be implemented by activities that contain this
