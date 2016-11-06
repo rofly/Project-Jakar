@@ -28,7 +28,6 @@ public class EsperandoMensagemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_esperando_mensagem);
         //getSupportActionBar().setTitle("Quase lá ... ");
-        getSupportActionBar().hide();
         Intent intent = getIntent();
         numeroTelefone = intent.getStringExtra(SplashActivity.TELEFONE_ENTRADO);
 
