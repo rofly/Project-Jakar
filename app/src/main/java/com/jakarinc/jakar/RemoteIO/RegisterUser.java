@@ -14,6 +14,7 @@ import com.android.volley.toolbox.Volley;
 import com.jakarinc.jakar.Controller.ConfirmaID.EsperandoMensagemActivity;
 import com.jakarinc.jakar.Controller.Main.MainActivity;
 import com.jakarinc.jakar.LocalIO.Impl.Auth;
+import com.jakarinc.jakar.Util.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,7 +29,7 @@ public class RegisterUser {
         requisicaoStrings.put("request_type", "register");
         requisicaoStrings.put("telefone", telefone);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
-                "http://digaobeta.herokuapp.com/JakarHost/register.php",
+                Constants.ServerAddres + "/register.php",
                 new JSONObject(requisicaoStrings),
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -61,7 +62,7 @@ public class RegisterUser {
         requisicaoStrings.put("telefone", telefone);
         requisicaoStrings.put("codigo", codigo);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
-                "http://digaobeta.herokuapp.com/JakarHost/register.php",
+                Constants.ServerAddres + "/register.php",
                 new JSONObject(requisicaoStrings),
                 new Response.Listener<JSONObject>() {
                     @Override
