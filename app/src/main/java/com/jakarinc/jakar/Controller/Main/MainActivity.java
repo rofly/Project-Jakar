@@ -36,9 +36,12 @@ import com.jakarinc.jakar.Controller.ListaHorario.HorarioFragment;
 import com.jakarinc.jakar.Controller.ListaHorario.ListFragmentQueDeveSerInstanciado;
 import com.jakarinc.jakar.Controller.Profile.Estabelecimento_profile;
 import com.jakarinc.jakar.Domain.Horario;
+import com.jakarinc.jakar.Domain.Lugar;
 import com.jakarinc.jakar.LocalIO.Impl.Auth;
 import com.jakarinc.jakar.R;
+import com.jakarinc.jakar.RemoteIO.getPlaces;
 
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity
@@ -184,6 +187,20 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
+            final ArrayList<Lugar> lugares = new ArrayList<>();
+
+
+            new getPlaces().fetchInRadius(1000, -19.883244, -43.984743, this, lugares, new getPlaces.callback() {
+                @Override
+                public void callbackFunction() {
+                    /**
+                     * M A R C O S seu código aki
+                     */
+                    for (int i = 0; i < lugares.size(); i++) {
+                        System.out.println("d" + lugares.get(i));
+                    }
+                }
+            });
 
         }
 

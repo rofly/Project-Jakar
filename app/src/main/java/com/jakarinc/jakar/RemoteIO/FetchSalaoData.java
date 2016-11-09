@@ -19,6 +19,7 @@ import com.jakarinc.jakar.Controller.Galeria.GaleriaFragment;
 import com.jakarinc.jakar.Controller.Profile.Estabelecimento_profile;
 import com.jakarinc.jakar.Domain.Imagem;
 import com.jakarinc.jakar.R;
+import com.jakarinc.jakar.Util.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,7 +57,7 @@ public class FetchSalaoData {
         requisicaoStrings.put("request_type", "fetchAll");
         requisicaoStrings.put("salaoId", salaoId);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
-                "http://digaobeta.herokuapp.com/JakarHost/fetchPosts.php",
+                Constants.ServerAddres + "/fetchPosts.php",
                 new JSONObject(requisicaoStrings),
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -71,7 +72,7 @@ public class FetchSalaoData {
                                 ((TextView) salaoFragment.getView().findViewById(R.id.avalicao_text)).
                                         setText(avaliacao);
                                 ImageView cover = (ImageView) salaoFragment.getView().findViewById(R.id.cover_img);
-                                Glide.with(salaoFragment.getContext()).load("http://digaobeta.herokuapp.com/JakarHost/img/"
+                                Glide.with(salaoFragment.getContext()).load(Constants.ServerAddres + "/img/"
                                         + salaoId
                                         + "/cover.jpg")
                                         .thumbnail(0.5f)
