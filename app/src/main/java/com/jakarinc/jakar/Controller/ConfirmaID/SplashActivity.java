@@ -29,7 +29,6 @@ public class SplashActivity extends AppCompatActivity {
         /* código útil pro futuro */
         /*getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.abs_layout);*/
-        getSupportActionBar().hide();
         setContentView(R.layout.splash);
         telefone_input = (EditText) findViewById(R.id.telefone_input);
 
