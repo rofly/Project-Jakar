@@ -1,13 +1,16 @@
 package com.jakarinc.jakar.Controller.Main;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.app.ProgressDialog;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -39,9 +42,14 @@ import com.jakarinc.jakar.Domain.Horario;
 import com.jakarinc.jakar.Domain.Lugar;
 import com.jakarinc.jakar.LocalIO.Impl.Auth;
 import com.jakarinc.jakar.R;
+import com.jakarinc.jakar.RemoteIO.MyCustomProgressDialog;
 import com.jakarinc.jakar.RemoteIO.getPlaces;
 
 import java.util.ArrayList;
+
+import android.widget.TextView;
+
+import static com.jakarinc.jakar.R.id.textView;
 
 
 public class MainActivity extends AppCompatActivity
@@ -343,12 +351,42 @@ public class MainActivity extends AppCompatActivity
 
 
 
-
     /*@Override
     public void onListFragmentInteraction(Horario h) {
 
     }*/
 
 
+    class VeryLongAsyncTask extends AsyncTask<Void, Void, Void> {
+        private final ProgressDialog progressDialog;
 
+        public VeryLongAsyncTask(Context ctx) {
+            progressDialog = MyCustomProgressDialog.ctor(ctx);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            textView.setVisibility(View.INVISIBLE);
+
+            progressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            // sleep for 5 seconds
+            try { Thread.sleep(5000); }
+            catch (InterruptedException e) { e.printStackTrace(); }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            textView.setVisibility(View.VISIBLE);
+
+            progressDialog.hide();
+        }
+    }
 }

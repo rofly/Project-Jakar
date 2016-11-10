@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.view.KeyEvent;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -20,7 +20,8 @@ import com.jakarinc.jakar.Controller.Profile.Estabelecimento_profile;
 import com.jakarinc.jakar.Domain.Imagem;
 import com.jakarinc.jakar.R;
 import com.jakarinc.jakar.Util.Constants;
-
+import android.app.Dialog;
+import android.content.DialogInterface;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -108,19 +109,21 @@ public class FetchSalaoData {
         );
         RequestQueue fila = Volley.newRequestQueue(salaoFragment.getContext());
         fila.add(request);
-        ImageView loadingImageDisplay = (ImageView) dialog.findViewById(R.id.loading_image_display);
+        /*ImageView loadingImageDisplay = (ImageView) dialog.findViewById(R.id.loading_image_display);
         Glide.with(salaoFragment.getContext()).load(R.drawable.loading)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .sizeMultiplier(0.8f)
                 .into(loadingImageDisplay);
-        /*dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
             public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
                 return keyCode == KeyEvent.KEYCODE_BACK;
             }
-        });*/
-        //dialog.show();
+        });
+        dialog.show();*/
     }
+
+
 
 
 }

@@ -16,7 +16,8 @@
         android:gravity="center"
         android:text="@string/listaHorarioTitle"
         android:textColor="@color/colorAccent"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:textAppearance="@style/TextAppearance.AppCompat" />
 
     <FrameLayout
         android:id="@+id/listaContentHolder"
