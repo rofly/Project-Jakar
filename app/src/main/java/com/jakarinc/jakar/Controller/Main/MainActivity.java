@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -26,6 +27,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -72,11 +76,13 @@ public class MainActivity extends AppCompatActivity
 
         /*Inicializa a API Google Play Services, necessária para ferramenta de localização*/
         if (mGoogleApiClient == null) {
+            // ATTENTION: This "addApi(AppIndex.API)"was auto-generated to implement the App Indexing API.
+            // See https://g.co/AppIndexing/AndroidStudio for more information.
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .addApi(LocationServices.API)
-                    .build();
+                    .addApi(AppIndex.API).build();
         }
 
         setContentView(R.layout.activity_main);
@@ -115,7 +121,6 @@ public class MainActivity extends AppCompatActivity
                 replace(R.id.jumbotron_display, mapFragment, mapFragment.getTag())
                 .addToBackStack(mapFragment.getTag())
                 .commit();
-
 
 
     }
@@ -235,7 +240,7 @@ public class MainActivity extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-         //Se a permissão para usar localização não foi concedida ainda, pede permissão para o usuário
+        //Se a permissão para usar localização não foi concedida ainda, pede permissão para o usuário
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -254,7 +259,6 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-
     }
 
 
@@ -262,7 +266,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
-        switch(requestCode) {
+        switch (requestCode) {
             /*Caso o pedido tenha sido para habilitar o acesso a localização de baixa precisão*/
             case MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION: {
                 /*Se a request for cancelada, o array retornado é vazio. Se receber permissão, [0] = constante de permissão concedida.
@@ -298,12 +302,17 @@ public class MainActivity extends AppCompatActivity
     protected void onStart() {
         mGoogleApiClient.connect();
         super.onStart();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.start(mGoogleApiClient, getIndexApiAction());
     }
 
     @Override
     protected void onStop() {
         mGoogleApiClient.disconnect();
-        super.onStop();
+        super.onStop();// ATTENTION: This was auto-generated to implement the App Indexing API.
+// See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(mGoogleApiClient, getIndexApiAction());
     }
 
     @Override
@@ -335,7 +344,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
     @Override
     public void onConnectionSuspended(int i) {
         Toast toast = Toast.makeText(this, R.string.googleApiConnectionSuspended, Toast.LENGTH_LONG);
@@ -344,6 +352,22 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast toast = Toast.makeText(this, R.string.googleApiConnectionFailed, Toast.LENGTH_LONG);
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Main Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
     }
 
 
@@ -355,36 +379,4 @@ public class MainActivity extends AppCompatActivity
     }*/
 
 
-    class VeryLongAsyncTask extends AsyncTask<Void, Void, Void> {
-        private final ProgressDialog progressDialog;
-
-        public VeryLongAsyncTask(Context ctx) {
-            progressDialog = MyCustomProgressDialog.ctor(ctx);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            textView.setVisibility(View.INVISIBLE);
-
-            progressDialog.show();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            // sleep for 5 seconds
-            try { Thread.sleep(5000); }
-            catch (InterruptedException e) { e.printStackTrace(); }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            textView.setVisibility(View.VISIBLE);
-
-            progressDialog.hide();
-        }
-    }
 }
