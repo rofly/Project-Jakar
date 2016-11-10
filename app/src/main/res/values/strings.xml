@@ -15,4 +15,5 @@
     <string name="toastPermissionDenied">Nós precisamos da sua localização para oferecer nossos serviços.</string>
     <string name="googleApiConnectionSuspended">A conexão com o Google Play Services foi suspensa</string>
     <string name="googleApiConnectionFailed">Falha ao estabelecer conexão com o Google Play Services</string>
+
 </resources>

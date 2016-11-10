@@ -7,19 +7,9 @@ package com.jakarinc.jakar.RemoteIO;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
-import android.os.Bundle;
-import android.widget.ImageView;
-import com.jakarinc.jakar.R;
 
 public class MyCustomProgressDialog extends ProgressDialog {
     private AnimationDrawable animation;
-
-    public static ProgressDialog ctor(Context context) {
-        MyCustomProgressDialog dialog = new MyCustomProgressDialog(context);
-        dialog.setIndeterminate(true);
-        dialog.setCancelable(false);
-        return dialog;
-    }
 
     public MyCustomProgressDialog(Context context) {
         super(context);
@@ -29,15 +19,22 @@ public class MyCustomProgressDialog extends ProgressDialog {
         super(context, theme);
     }
 
-    @Override
+    public static ProgressDialog ctor(Context context) {
+        MyCustomProgressDialog dialog = new MyCustomProgressDialog(context);
+        dialog.setIndeterminate(true);
+        dialog.setCancelable(false);
+        return dialog;
+    }
+
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_custom_progress_dialog);
+        setContentView(R.drawable.view_custom_progress_dialog);
 
         ImageView la = (ImageView) findViewById(R.id.animation);
         la.setBackgroundResource(R.drawable.custom_progress_dialog_animation);
         animation = (AnimationDrawable) la.getBackground();
-    }
+    }*/
 
     @Override
     public void show() {

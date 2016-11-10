@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.KeyEvent;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -20,8 +20,7 @@ import com.jakarinc.jakar.Controller.Profile.Estabelecimento_profile;
 import com.jakarinc.jakar.Domain.Imagem;
 import com.jakarinc.jakar.R;
 import com.jakarinc.jakar.Util.Constants;
-import android.app.Dialog;
-import android.content.DialogInterface;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,6 +69,8 @@ public class FetchSalaoData {
                                 ArrayList<Imagem> galeriaImagens = JSONtoArrayImageList(response.getJSONArray("post"), salaoId, nomeSalao);
                                 ((TextView) salaoFragment.getView().findViewById(R.id.estabelecimento_nome)).
                                         setText(nomeSalao);
+                                ((TextView) salaoFragment.getView().findViewById(R.id.endereco_text_view)).
+                                        setText(response.getJSONObject("salaoData").getString("des_Endereco"));
                                 ((TextView) salaoFragment.getView().findViewById(R.id.avalicao_text)).
                                         setText(avaliacao);
                                 ImageView cover = (ImageView) salaoFragment.getView().findViewById(R.id.cover_img);
@@ -93,7 +94,9 @@ public class FetchSalaoData {
 
                             }
                             // TODO popular com dados do Google Maps
-                            // else if(salaoDoGoogle){}
+                            else if (response.get("status").equals("googlemode")) {
+
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

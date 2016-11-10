@@ -4,33 +4,31 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:icon="@android:drawable/ic_dialog_map"
+            android:title="Mapa" />
         <item
             android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:icon="@drawable/agendamento_icone"
+            android:title="Agendamentos" />
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:icon="@drawable/conta_icone"
+            android:title="Minha Conta" />
+
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Veja +">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/nav_manage"
+                android:icon="@drawable/aperto_de_mao_icon"
+                android:title="Filie-se ao Jakar" />
             <item
                 android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:icon="@android:drawable/ic_dialog_info"
+                android:title="Sobre" />
         </menu>
     </item>
+
 
 </menu>

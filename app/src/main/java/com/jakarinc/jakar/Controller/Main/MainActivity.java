@@ -1,16 +1,13 @@
 package com.jakarinc.jakar.Controller.Main;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.app.ProgressDialog;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -42,14 +39,9 @@ import com.jakarinc.jakar.Domain.Horario;
 import com.jakarinc.jakar.Domain.Lugar;
 import com.jakarinc.jakar.LocalIO.Impl.Auth;
 import com.jakarinc.jakar.R;
-import com.jakarinc.jakar.RemoteIO.MyCustomProgressDialog;
 import com.jakarinc.jakar.RemoteIO.getPlaces;
 
 import java.util.ArrayList;
-
-import android.widget.TextView;
-
-import static com.jakarinc.jakar.R.id.textView;
 
 
 public class MainActivity extends AppCompatActivity
@@ -141,7 +133,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
+        /*// Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
@@ -149,7 +141,7 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -162,7 +154,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             System.gc();
-            Estabelecimento_profile fragmentoEstabelecimento = Estabelecimento_profile.newInstance("123456");
+            Estabelecimento_profile fragmentoEstabelecimento = Estabelecimento_profile.newInstance("jak123");
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().
                     replace(R.id.jumbotron_display, fragmentoEstabelecimento, fragmentoEstabelecimento.getTag())
@@ -191,8 +183,6 @@ public class MainActivity extends AppCompatActivity
 
 
         } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
             final ArrayList<Lugar> lugares = new ArrayList<>();
@@ -357,7 +347,7 @@ public class MainActivity extends AppCompatActivity
     }*/
 
 
-    class VeryLongAsyncTask extends AsyncTask<Void, Void, Void> {
+   /* class VeryLongAsyncTask extends AsyncTask<Void, Void, Void> {
         private final ProgressDialog progressDialog;
 
         public VeryLongAsyncTask(Context ctx) {
@@ -388,5 +378,5 @@ public class MainActivity extends AppCompatActivity
 
             progressDialog.hide();
         }
-    }
+    }*/
 }

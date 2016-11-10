@@ -3,5 +3,5 @@
 
     <integer name="MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION">1</integer>
     <item name="DEFAULT_ZOOM" format="float" type="dimen">0.0001</item>
-
+    <string name="server_addres"> jakar.herokuapp.com </string>
 </resources>
