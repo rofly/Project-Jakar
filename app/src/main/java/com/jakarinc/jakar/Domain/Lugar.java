@@ -6,15 +6,15 @@ package com.jakarinc.jakar.Domain;
 
 public class Lugar {
     private double latitude;
-    private double longitudde;
+    private double longitude;
     private String id;
 
     public Lugar() {
     }
 
-    public Lugar(double latitude, double longitudde, String id) {
+    public Lugar(double latitude, double longitude, String id) {
         this.latitude = latitude;
-        this.longitudde = longitudde;
+        this.longitude = longitude;
         this.id = id;
     }
 
@@ -26,7 +26,7 @@ public class Lugar {
         Lugar lugar = (Lugar) o;
 
         if (Double.compare(lugar.latitude, latitude) != 0) return false;
-        if (Double.compare(lugar.longitudde, longitudde) != 0) return false;
+        if (Double.compare(lugar.longitude, longitude) != 0) return false;
         return id == lugar.id;
 
     }
@@ -37,7 +37,7 @@ public class Lugar {
         long temp;
         temp = Double.doubleToLongBits(latitude);
         result = (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(longitudde);
+        temp = Double.doubleToLongBits(longitude);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
@@ -59,19 +59,19 @@ public class Lugar {
         this.id = id;
     }
 
-    public double getLongitudde() {
-        return longitudde;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setLongitudde(double longitudde) {
-        this.longitudde = longitudde;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     @Override
     public String toString() {
         return "Lugar{" +
                 "latitude=" + latitude +
-                ", longitudde=" + longitudde +
+                ", longitude=" + longitude +
                 ", id='" + id + '\'' +
                 '}';
     }

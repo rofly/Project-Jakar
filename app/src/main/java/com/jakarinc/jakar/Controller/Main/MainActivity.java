@@ -27,7 +27,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.jakarinc.jakar.Controller.ConfirmaID.SplashActivity;
 import com.jakarinc.jakar.Controller.ListaHorario.HorarioFragment;
 import com.jakarinc.jakar.Controller.ListaHorario.ListFragmentQueDeveSerInstanciado;
@@ -43,7 +45,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        HorarioFragment.OnListFragmentInteractionListener, OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener
+        HorarioFragment.OnListFragmentInteractionListener, OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveListener
 
 
 {
@@ -54,12 +57,16 @@ public class MainActivity extends AppCompatActivity
     private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
     private LatLng ultimaPosicao;
+    final ArrayList<Lugar> lugares = new ArrayList<>();
+    private boolean moveFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         masterDispatcher();
+
+        moveFlag = true;
 
         /*Inicializa a API Google Play Services, necessária para ferramenta de localização*/
         if (mGoogleApiClient == null) {
@@ -98,6 +105,7 @@ public class MainActivity extends AppCompatActivity
                 replace(R.id.jumbotron_display, mapFragment, mapFragment.getTag())
                 .addToBackStack(mapFragment.getTag())
                 .commit();
+
 
 
 
@@ -141,26 +149,8 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            System.gc();
-            Estabelecimento_profile fragmentoEstabelecimento = Estabelecimento_profile.newInstance("jak123");
-            FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().
-                    replace(R.id.jumbotron_display, fragmentoEstabelecimento, fragmentoEstabelecimento.getTag())
-                    .addToBackStack(fragmentoEstabelecimento.getTag())
-                    .commit();
+        if (id == R.id.nav_map) {
 
-        } else if (id == R.id.nav_gallery) {
-            System.gc();
-            ListFragmentQueDeveSerInstanciado listaFragment = ListFragmentQueDeveSerInstanciado.newInstance(null, null);
-            FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction()
-                    .replace(R.id.jumbotron_display, listaFragment, listaFragment.getTag())
-                    .addToBackStack(listaFragment.getTag())
-                    .commit();
-
-
-        } else if (id == R.id.nav_slideshow) {
             System.gc();
             SupportMapFragment mapFragment = SupportMapFragment.newInstance();
             mapFragment.getMapAsync(this);
@@ -171,23 +161,33 @@ public class MainActivity extends AppCompatActivity
                     .commit();
 
 
-        } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_send) {
-            final ArrayList<Lugar> lugares = new ArrayList<>();
+        } else if (id == R.id.nav_schedule) {
+            System.gc();
+            ListFragmentQueDeveSerInstanciado listaFragment = ListFragmentQueDeveSerInstanciado.newInstance(null, null);
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction()
+                    .replace(R.id.jumbotron_display, listaFragment, listaFragment.getTag())
+                    .addToBackStack(listaFragment.getTag())
+                    .commit();
 
 
-            new getPlaces().fetchInRadius(1000, -19.883244, -43.984743, this, lugares, new getPlaces.callback() {
-                @Override
-                public void callbackFunction() {
-                    /**
-                     * M A R C O S seu código aki
-                     */
-                    for (int i = 0; i < lugares.size(); i++) {
-                        System.out.println("d" + lugares.get(i));
-                    }
-                }
-            });
+        } else if (id == R.id.nav_account) {
+
+            System.gc();
+            Estabelecimento_profile fragmentoEstabelecimento = Estabelecimento_profile.newInstance("jak123");
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().
+                    replace(R.id.jumbotron_display, fragmentoEstabelecimento, fragmentoEstabelecimento.getTag())
+                    .addToBackStack(fragmentoEstabelecimento.getTag())
+                    .commit();
+
+
+        } else if (id == R.id.nav_join) {
+
+        } else if (id == R.id.nav_about) {
+
+
 
         }
 
@@ -212,6 +212,39 @@ public class MainActivity extends AppCompatActivity
         Toast.makeText(getApplicationContext(), "Horas " + String.valueOf(h.getHorasTimeStamp()), Toast.LENGTH_SHORT).show();
     }
 
+    public void onCameraMove() {
+        moveFlag = true;
+    }
+
+    public void onCameraIdle() {
+
+        if (moveFlag) { //Verifica se a ultima interacao com a camera foi de movimento ou nao.
+            LatLng mapPosition = mMap.getCameraPosition().target;
+
+            //Recupera estabelecimentos próximos.
+            mMap.clear();
+            lugares.clear();
+            new getPlaces().fetchInRadius(500, mapPosition.latitude, mapPosition.longitude, this, lugares, new getPlaces.callback() {
+                @Override
+                public void callbackFunction() {
+
+                    for (int i = 0; i < lugares.size(); i++) {
+                        if (lugares.get(i).getId().equals("jak124")) {//Adiciona marcador customizado ao exemplo.
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(lugares.get(i).getLatitude(), lugares.get(i).getLongitude())).icon(BitmapDescriptorFactory.fromResource(R.drawable.diamondmarker)).title("Exemplo"));
+                        } else if (lugares.get(i).getId().equals("ChIJh2MbM3y9pgAR_F1x0-4EIkU")) {
+
+                        } else {
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(lugares.get(i).getLatitude(), lugares.get(i).getLongitude())).icon(BitmapDescriptorFactory.fromResource(R.drawable.unregisteredmarker)).flat(true));
+                        }
+
+                    }
+
+                }
+            });
+            moveFlag = false;
+        }
+
+    }
 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -232,6 +265,33 @@ public class MainActivity extends AppCompatActivity
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(ultimaPosicao));
                 mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
             }
+
+            //Recupera os estabelecimentos próximos.
+            LatLng mapPosition = mMap.getCameraPosition().target;
+            mMap.clear();
+            lugares.clear();
+            new getPlaces().fetchInRadius(500, mapPosition.latitude, mapPosition.longitude, this, lugares, new getPlaces.callback() {
+                @Override
+                public void callbackFunction() {
+
+                    for (int i = 0; i < lugares.size(); i++) {
+                        if (lugares.get(i).getId().equals("jak124")) {//Adiciona marcador customizado ao exemplo.
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(lugares.get(i).getLatitude(), lugares.get(i).getLongitude())).icon(BitmapDescriptorFactory.fromResource(R.drawable.diamondmarker)).title("Exemplo"));
+                        } else if (lugares.get(i).getId().equals("ChIJh2MbM3y9pgAR_F1x0-4EIkU"))  {
+
+                        } else {
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(lugares.get(i).getLatitude(), lugares.get(i).getLongitude())).icon(BitmapDescriptorFactory.fromResource(R.drawable.unregisteredmarker)).flat(true));
+                        }
+
+                    }
+
+                }
+            });
+
+            mMap.setOnCameraIdleListener(this);
+            mMap.setOnCameraMoveListener(this);
+
+
         }
 
 
@@ -311,6 +371,29 @@ public class MainActivity extends AppCompatActivity
                 mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
             }
+
+            LatLng mapPosition = mMap.getCameraPosition().target;
+            //Recupera estabelecimentos próximos.
+            mMap.clear();
+            lugares.clear();
+            new getPlaces().fetchInRadius(500, mapPosition.latitude, mapPosition.longitude, this, lugares, new getPlaces.callback() {
+                @Override
+                public void callbackFunction() {
+
+                    for (int i = 0; i < lugares.size(); i++) {
+                        if (lugares.get(i).getId().equals("jak124")) {//Adiciona marcador customizado ao exemplo.
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(lugares.get(i).getLatitude(), lugares.get(i).getLongitude())).icon(BitmapDescriptorFactory.fromResource(R.drawable.diamondmarker)).title("Exemplo"));
+                        } else if (lugares.get(i).getId().equals("ChIJh2MbM3y9pgAR_F1x0-4EIkU")) {
+
+                        } else {
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(lugares.get(i).getLatitude(), lugares.get(i).getLongitude())).icon(BitmapDescriptorFactory.fromResource(R.drawable.unregisteredmarker)).flat(true));
+                        }
+
+                    }
+
+                }
+            });
+
         }
 
     }

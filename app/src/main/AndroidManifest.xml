@@ -21,11 +21,22 @@
         android:name="android.support.multidex.MultiDexApplication">
         <activity
             android:name=".SplashActivity">
+
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
             <category android:name="android.intent.category.LAUNCHER" />
+
+
         </intent-filter>
+        </activity>
+        <activity
+            android:name=".Controller.ConfirmaID.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+            </intent-filter>
+
         </activity>
         <activity
             android:name=".Controller.Main.MainActivity"
@@ -33,7 +44,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
         <activity android:name=".Controller.ConfirmaID.EsperandoMensagemActivity" />

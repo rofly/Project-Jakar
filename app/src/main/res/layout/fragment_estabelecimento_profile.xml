@@ -14,7 +14,8 @@
         <RelativeLayout
             android:id="@+id/main_info"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:focusableInTouchMode="true">
 
             <ImageView
                 android:id="@+id/cover_img"
