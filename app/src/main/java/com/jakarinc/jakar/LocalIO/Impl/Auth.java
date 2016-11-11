@@ -19,7 +19,7 @@ public class Auth implements AuthI {
     @Override
     public String getUserId() {
         String userIdString = preferences.getString("user_id", null);
-        System.out.println("USER ID STRINGGGGG" + userIdString);
+       // System.out.println("USER ID STRINGGGGG" + userIdString);
         return userIdString;
     }
 

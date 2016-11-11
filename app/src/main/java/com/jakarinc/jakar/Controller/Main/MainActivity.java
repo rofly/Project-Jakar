@@ -37,6 +37,7 @@ import com.jakarinc.jakar.Controller.Profile.Estabelecimento_profile;
 import com.jakarinc.jakar.Domain.Horario;
 import com.jakarinc.jakar.Domain.Lugar;
 import com.jakarinc.jakar.LocalIO.Impl.Auth;
+import com.jakarinc.jakar.LocalIO.Impl.Horarios;
 import com.jakarinc.jakar.R;
 import com.jakarinc.jakar.RemoteIO.getPlaces;
 
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //                                                                                                                                                                                             new Horarios().addNew(new Horario());
 
         masterDispatcher();
 

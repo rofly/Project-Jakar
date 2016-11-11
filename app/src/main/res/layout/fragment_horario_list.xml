@@ -6,11 +6,11 @@
     android:name="com.jakarinc.jakar.HorarioFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".Controller.ListaHorario.HorarioFragment"
-    tools:listitem="@layout/fragment_horario">
+    tools:listitem="@layout/fragment_horario"
+
+    >
 
 
 </android.support.v7.widget.RecyclerView>

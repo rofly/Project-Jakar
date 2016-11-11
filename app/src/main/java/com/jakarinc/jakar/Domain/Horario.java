@@ -5,6 +5,7 @@ public class Horario {
     private String userId;
     private long horasTimeStamp;
     private int token;
+    private int typee;
 
     public Horario(String conteudo) {
         String[] vars = conteudo.split("\0");
@@ -13,10 +14,25 @@ public class Horario {
         token = Integer.valueOf(vars[2]);
     }
 
+    public Horario(String userId, long horasTimeStamp, int typee, int token) {
+        this.userId = userId;
+        this.horasTimeStamp = horasTimeStamp;
+        this.typee = typee;
+        this.token = token;
+    }
+
     public Horario(int token, long horas, String userId) {
         this.token = token;
         this.horasTimeStamp = horas;
         this.userId = userId;
+    }
+
+    public int getTypee() {
+        return typee;
+    }
+
+    public void setTypee(int typee) {
+        this.typee = typee;
     }
 
     public int getToken() {
@@ -66,5 +82,10 @@ public class Horario {
         result = 31 * result + (int) (horasTimeStamp ^ (horasTimeStamp >>> 32));
         result = 31 * result + token;
         return result;
+    }
+    public static class Constants{
+        public static final int TYPE_Corte = 0;
+        public static final int TYPE_Barba = 1;
+        public static final int TYPE_Unha = 2;
     }
 }

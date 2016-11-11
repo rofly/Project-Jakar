@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jakarinc.jakar.Domain.Horario;
+import com.jakarinc.jakar.LocalIO.Impl.Auth;
+import com.jakarinc.jakar.LocalIO.Impl.Horarios;
 import com.jakarinc.jakar.R;
 
 import java.util.ArrayList;
@@ -71,9 +73,10 @@ public class HorarioFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
             List<Horario> listosa = new ArrayList<>();
-            listosa.add(new Horario(188, 456, "ssss"));
-            listosa.add(new Horario(000, 222, "rosa"));
-            listosa.add(new Horario(111, 333, "jooj"));
+            String userId = new Auth(getContext()).getUserId();
+            listosa.add(new Horario(userId, 1478879549 , Horario.Constants.TYPE_Corte, 436657));
+            listosa.add(new Horario(userId, 1415151671  , Horario.Constants.TYPE_Corte, 346545));
+            listosa.add(new Horario(userId, 1478879049 , Horario.Constants.TYPE_Corte, 113544));
             recyclerView.setAdapter(new HorarioRecyclerViewAdapter(listosa, mListener));
         }
         return view;
